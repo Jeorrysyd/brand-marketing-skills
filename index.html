@@ -2424,7 +2424,7 @@ const WORKFLOWS = {
       { name:'落飞书', desc:'feishu-cli 直接生成可编辑 docx + sheet 在你的飞书云盘' }
     ],
     requirement: '需要：xhs-mcp server（预编译 binary，不需要装 Go）+ lark-cli（飞书输出，一键脚本自动配）+ xhs-viral-decoder skill 集合。首次 5 分钟配完终身用。',
-    setup: '<span class="comment"># 1. 装小红书 MCP server（预编译 binary）</span>\nmkdir -p ~/tools/xiaohongshu-mcp && cd ~/tools/xiaohongshu-mcp\ncurl -L -o xhs-mcp.tar.gz \\\n  https://github.com/xpzouying/xiaohongshu-mcp/releases/latest/download/xiaohongshu-mcp-darwin-arm64.tar.gz\ntar xzf xhs-mcp.tar.gz && chmod +x xiaohongshu-*\n./xiaohongshu-login-darwin-arm64  <span class="comment"># 扫码登录小红书</span>\n./xiaohongshu-mcp-darwin-arm64 & <span class="comment"># 后台启动</span>\n\n<span class="comment"># 2. 装 xhs-viral-decoder skill（含 6 个 sub-skill）</span>\ngit clone https://github.com/Jeorrysyd/xhs-viral-decoder \\\n  ~/.claude/skills/xhs-viral-decoder\n\n<span class="comment"># 3. 飞书一键配置（自动创建文件夹 + 自动填 config.yaml）</span>\nnpm install -g @larksuite/cli\nlark-cli config init <span class="comment"># 填飞书 App ID + Secret，身份选 bot</span>\nbash ~/.claude/skills/xhs-viral-decoder/scripts/setup_feishu.sh',
+    setup: '<span class="comment"># 改成你的 AI agent 的 skills 目录</span>\n<span class="comment"># Claude Code → ~/.claude/skills | Codex → ~/.codex/skills | 其他随意</span>\nSKILLS_DIR=~/.claude/skills\n\n<span class="comment"># 1. 装小红书 MCP server（预编译 binary，不需要 Go）</span>\nmkdir -p ~/tools/xiaohongshu-mcp && cd ~/tools/xiaohongshu-mcp\ncurl -L -o xhs-mcp.tar.gz \\\n  https://github.com/xpzouying/xiaohongshu-mcp/releases/latest/download/xiaohongshu-mcp-darwin-arm64.tar.gz\ntar xzf xhs-mcp.tar.gz && chmod +x xiaohongshu-*\n./xiaohongshu-login-darwin-arm64  <span class="comment"># 扫码登录小红书</span>\n./xiaohongshu-mcp-darwin-arm64 & <span class="comment"># 后台启动</span>\n\n<span class="comment"># 2. 装 xhs-viral-decoder skill（含 6 个 sub-skill）</span>\ngit clone https://github.com/Jeorrysyd/xhs-viral-decoder \\\n  $SKILLS_DIR/xhs-viral-decoder\n\n<span class="comment"># 3. 飞书一键配置（自动创建文件夹 + 自动填 config.yaml）</span>\nnpm install -g @larksuite/cli\nlark-cli config init <span class="comment"># 填飞书 App ID + Secret，身份选 bot</span>\nbash $SKILLS_DIR/xhs-viral-decoder/scripts/setup_feishu.sh',
     prompt: `跑下本周「美妆 / 护肤 / 成分党」三个关键词的爆款周报。
 
 跑完后，把 TOP 30 用我人设改写一遍——我账号是「<你的昵称>」（如果还没生成 persona，先跑 xhs-persona-synth）。
@@ -2497,7 +2497,7 @@ const WORKFLOWS = {
       { name:'email-sequence', desc:'3 封跟进的节奏 + 触发条件 + 不同回应路径' }
     ],
     requirement: '完全 Universal。装了 marketingskills 就行。',
-    setup: 'git clone https://github.com/coreyhaines31/marketingskills \\\n  ~/.claude/skills/marketingskills',
+    setup: '<span class="comment"># 改成你的 AI agent 的 skills 目录</span>\n<span class="comment"># Claude Code → ~/.claude/skills | Codex → ~/.codex/skills | 其他随意</span>\nSKILLS_DIR=~/.claude/skills\n\ngit clone https://github.com/coreyhaines31/marketingskills \\\n  $SKILLS_DIR/marketingskills',
     prompt: `我们的产品：[一句话定位]
 目标客户画像：[公司类型 / 规模 / 角色]
 目标公司列表（贴 50 行 CSV，或 LinkedIn 搜索结果）：
@@ -2528,7 +2528,7 @@ const WORKFLOWS = {
       { name:'说一句话试跑', desc:'"用 brief-analyst 拆这份 Brief……" — AI 自动调用对应 skill' }
     ],
     requirement: '不需要任何前置——这就是入门路径。',
-    setup: '<span class="comment"># Step 1: 装 Claude Code</span>\nbrew install claude-code\n\n<span class="comment"># Step 2: 装两个 skill 包</span>\nmkdir -p ~/.claude/skills && cd ~/.claude/skills\ngit clone https://github.com/coreyhaines31/marketingskills\ngit clone https://github.com/jinggreen15/ai-design-team\n\n<span class="comment"># Step 3: 打开 Claude Code 开始对话</span>',
+    setup: '<span class="comment"># Step 1: 装一个 AI agent（任选一个）</span>\n<span class="comment"># Claude Code: brew install claude-code</span>\n<span class="comment"># Codex CLI: npm install -g @openai/codex</span>\n<span class="comment"># 或用 Cursor / Windsurf / Floatboat 等</span>\n\n<span class="comment"># Step 2: 装两个 skill 包</span>\n<span class="comment"># 改成你的 agent 的 skills 目录</span>\nSKILLS_DIR=~/.claude/skills\nmkdir -p $SKILLS_DIR && cd $SKILLS_DIR\ngit clone https://github.com/coreyhaines31/marketingskills\ngit clone https://github.com/jinggreen15/ai-design-team\n\n<span class="comment"># Step 3: 打开你的 AI agent 开始对话</span>',
     prompt: `（装好后第一句 prompt——直接复制粘贴）
 
 我刚收到一个业配邀请：要给一个 AI 写作工具拍 30 秒短视频。
