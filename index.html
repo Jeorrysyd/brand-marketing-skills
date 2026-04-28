@@ -2424,7 +2424,7 @@ const WORKFLOWS = {
       { name:'落飞书', desc:'feishu-cli 直接生成可编辑 docx + sheet 在你的飞书云盘' }
     ],
     requirement: '需要：xhs-mcp server（数据源）+ lark-cli（飞书输出）+ xhs-viral-decoder skill 集合。一次配完终身用。',
-    setup: '<span class="comment"># 1. 拉小红书 MCP server</span>\ngit clone https://github.com/xpzouying/xiaohongshu-mcp ~/tools/xiaohongshu-mcp\ncd ~/tools/xiaohongshu-mcp && go build .\n./xiaohongshu-mcp --port 18060\n\n<span class="comment"># 2. 装 xhs-viral-decoder skill（含 6 个 sub-skill）</span>\ngit clone https://github.com/Jeorrysyd/xhs-viral-decoder ~/.claude/skills/xhs-viral-decoder\n\n<span class="comment"># 3. 装 lark-cli + 配 config.yaml（详见 setup/03_config.md）</span>\nnpm install -g @larksuite/cli\ncd ~/.claude/skills/xhs-viral-decoder && cp config.example.yaml config.yaml\n# 编辑 config.yaml 填飞书 folder_token + grantee_open_id',
+    setup: '<span class="comment"># 1. 拉小红书 MCP server</span>\ngit clone https://github.com/xpzouying/xiaohongshu-mcp ~/tools/xiaohongshu-mcp\ncd ~/tools/xiaohongshu-mcp && go build .\n./xiaohongshu-mcp --port 18060\n\n<span class="comment"># 2. 装 xhs-viral-decoder skill（含 6 个 sub-skill）</span>\ngit clone https://github.com/Jeorrysyd/xhs-viral-decoder\n\n<span class="comment"># 3. 装 lark-cli + 配 config.yaml（详见 setup/03_config.md）</span>\nnpm install -g @larksuite/cli\ncd ~/.claude/skills/xhs-viral-decoder && cp config.example.yaml config.yaml\n# 编辑 config.yaml 填飞书 folder_token + grantee_open_id',
     prompt: `跑下本周「美妆 / 护肤 / 成分党」三个关键词的爆款周报。
 
 跑完后，把 TOP 30 用我人设改写一遍——我账号是「<你的昵称>」（如果还没生成 persona，先跑 xhs-persona-synth）。
