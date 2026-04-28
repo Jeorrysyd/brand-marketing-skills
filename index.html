@@ -2393,11 +2393,11 @@ const INSTALL_TARGETS = {
   },
   'xhs-viral-decoder': {
     repo: 'https://github.com/Jeorrysyd/xhs-viral-decoder',
-    description: '6 个组合式 sub-skill 拆解小红书爆款 → 飞书直接出 docx + sheet。需先装 xhs-mcp + lark-cli（仓库 setup/ 文档有详细步骤）。',
+    description: '6 个组合式 sub-skill 拆解小红书爆款 → 飞书直接出 docx + sheet。需先装 xhs-mcp（预编译 binary，不需要 Go），飞书配置跑一键脚本自动完成。',
     paths: {
-      claude: 'git clone https://github.com/Jeorrysyd/xhs-viral-decoder \\\n  ~/.claude/skills/xhs-viral-decoder',
-      codex: 'git clone https://github.com/Jeorrysyd/xhs-viral-decoder \\\n  ~/.codex/skills/xhs-viral-decoder',
-      other: '<span class="comment"># 把这段话粘给豆包 / Floatboat / WorkBuddy</span>\n\n帮我装这个 skill，里面有 6 个小红书爆款拆解的子能力。装在标准 skills 目录，按它的 setup/ 文档帮我装好两个依赖（xhs-mcp + lark-cli）：\nhttps://github.com/Jeorrysyd/xhs-viral-decoder'
+      claude: 'git clone https://github.com/Jeorrysyd/xhs-viral-decoder \\\n  ~/.claude/skills/xhs-viral-decoder\n\n<span class="comment"># 装数据源（详见 setup/01）</span>\nmkdir -p ~/tools/xiaohongshu-mcp && cd ~/tools/xiaohongshu-mcp\ncurl -L -o xhs-mcp.tar.gz \\\n  https://github.com/xpzouying/xiaohongshu-mcp/releases/latest/download/xiaohongshu-mcp-darwin-arm64.tar.gz\ntar xzf xhs-mcp.tar.gz && chmod +x xiaohongshu-*\n./xiaohongshu-login-darwin-arm64  <span class="comment"># 扫码登录</span>\n./xiaohongshu-mcp-darwin-arm64 & <span class="comment"># 后台启动</span>\n\n<span class="comment"># 飞书一键配置（需先 npm install -g @larksuite/cli && lark-cli config init）</span>\nbash ~/.claude/skills/xhs-viral-decoder/scripts/setup_feishu.sh',
+      codex: 'git clone https://github.com/Jeorrysyd/xhs-viral-decoder \\\n  ~/.codex/skills/xhs-viral-decoder\n\n<span class="comment"># 后续步骤同 Claude Code</span>',
+      other: '<span class="comment"># 把这段话粘给豆包 / Floatboat / WorkBuddy</span>\n\n帮我装这个 skill，里面有 6 个小红书爆款拆解的子能力。装在标准 skills 目录，按它的 setup/ 文档帮我装好依赖（xhs-mcp 用预编译 binary + 飞书跑一键配置脚本 setup_feishu.sh）：\nhttps://github.com/Jeorrysyd/xhs-viral-decoder'
     }
   },
   anthropic: {
@@ -2423,8 +2423,8 @@ const WORKFLOWS = {
       { name:'按人设改写', desc:'xhs-viral-rewrite 用你的 persona 把 30 条 TOP 翻成你能拍的标题' },
       { name:'落飞书', desc:'feishu-cli 直接生成可编辑 docx + sheet 在你的飞书云盘' }
     ],
-    requirement: '需要：xhs-mcp server（数据源）+ lark-cli（飞书输出）+ xhs-viral-decoder skill 集合。一次配完终身用。',
-    setup: '<span class="comment"># 1. 拉小红书 MCP server</span>\ngit clone https://github.com/xpzouying/xiaohongshu-mcp ~/tools/xiaohongshu-mcp\ncd ~/tools/xiaohongshu-mcp && go build .\n./xiaohongshu-mcp --port 18060\n\n<span class="comment"># 2. 装 xhs-viral-decoder skill（含 6 个 sub-skill）</span>\ngit clone https://github.com/Jeorrysyd/xhs-viral-decoder\n\n<span class="comment"># 3. 装 lark-cli + 配 config.yaml（详见 setup/03_config.md）</span>\nnpm install -g @larksuite/cli\ncd ~/.claude/skills/xhs-viral-decoder && cp config.example.yaml config.yaml\n# 编辑 config.yaml 填飞书 folder_token + grantee_open_id',
+    requirement: '需要：xhs-mcp server（预编译 binary，不需要装 Go）+ lark-cli（飞书输出，一键脚本自动配）+ xhs-viral-decoder skill 集合。首次 5 分钟配完终身用。',
+    setup: '<span class="comment"># 1. 装小红书 MCP server（预编译 binary）</span>\nmkdir -p ~/tools/xiaohongshu-mcp && cd ~/tools/xiaohongshu-mcp\ncurl -L -o xhs-mcp.tar.gz \\\n  https://github.com/xpzouying/xiaohongshu-mcp/releases/latest/download/xiaohongshu-mcp-darwin-arm64.tar.gz\ntar xzf xhs-mcp.tar.gz && chmod +x xiaohongshu-*\n./xiaohongshu-login-darwin-arm64  <span class="comment"># 扫码登录小红书</span>\n./xiaohongshu-mcp-darwin-arm64 & <span class="comment"># 后台启动</span>\n\n<span class="comment"># 2. 装 xhs-viral-decoder skill（含 6 个 sub-skill）</span>\ngit clone https://github.com/Jeorrysyd/xhs-viral-decoder \\\n  ~/.claude/skills/xhs-viral-decoder\n\n<span class="comment"># 3. 飞书一键配置（自动创建文件夹 + 自动填 config.yaml）</span>\nnpm install -g @larksuite/cli\nlark-cli config init <span class="comment"># 填飞书 App ID + Secret，身份选 bot</span>\nbash ~/.claude/skills/xhs-viral-decoder/scripts/setup_feishu.sh',
     prompt: `跑下本周「美妆 / 护肤 / 成分党」三个关键词的爆款周报。
 
 跑完后，把 TOP 30 用我人设改写一遍——我账号是「<你的昵称>」（如果还没生成 persona，先跑 xhs-persona-synth）。
